@@ -1,0 +1,35 @@
+{
+  "family": "purchase-intent",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "1024",
+  "memory": "3072",
+  "executionRoleArn": "${TASK_EXECUTION_ROLE_ARN}",
+  "taskRoleArn": "${TASK_ROLE_ARN}",
+  "containerDefinitions": [
+    {
+      "name": "purchase-intent-api",
+      "image": "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/purchase-intent-api:${IMAGE_TAG}",
+      "essential": true,
+      "portMappings": [{ "containerPort": 8000, "protocol": "tcp" }],
+      "healthCheck": {
+        "command": ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\""],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 60
+      },
+      "environment": [{ "name": "LOG_LEVEL", "value": "INFO" }]
+    },
+    {
+      "name": "purchase-intent-dashboard",
+      "image": "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/purchase-intent-dashboard:${IMAGE_TAG}",
+      "essential": true,
+      "portMappings": [{ "containerPort": 8501, "protocol": "tcp" }],
+      "environment": [
+        { "name": "API_BASE_URL", "value": "http://localhost:8000" },
+        { "name": "STREAMLIT_SERVER_HEADLESS", "value": "true" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+project:
+  name: "E-Commerce Purchase Intent"
+  version: "1.0.0"
+  random_seed: 42
+
+data:
+  path: "ecommerce_sessions.csv"
+  target: "Converted"
+  test_size: 0.20
+  validation_size: 0.20
+  categorical:
+    - "Month"
+    - "OperatingSystems"
+    - "Browser"
+    - "Region"
+    - "TrafficType"
+    - "VisitorType"
+    - "Weekend"
+  numerical:
+    - "Administrative"
+    - "Administrative_Duration"
+    - "Informational"
+    - "Informational_Duration"
+    - "ProductRelated"
+    - "ProductRelated_Duration"
+    - "BounceRates"
+    - "ExitRates"
+    - "PageValues"
+    - "SpecialDay"
+  derived_numerical:
+    - "TotalPages"
+    - "TotalDuration"
+    - "ProductPageShare"
+    - "ProductSecondsPerPage"
+    - "ExitBounceGap"
+  months:
+    - "Jan"
+    - "Feb"
+    - "Mar"
+    - "Apr"
+    - "May"
+    - "June"
+    - "Jul"
+    - "Aug"
+    - "Sep"
+    - "Oct"
+    - "Nov"
+    - "Dec"
+
+training:
+  cv_folds: 3
+  threshold_min: 0.05
+  threshold_max: 0.95
+  threshold_steps: 91
+  conversion_value: 100.0
+  intervention_cost: 5.0
+  shap_background_rows: 100
+  shap_explanation_rows: 250
+
+paths:
+  model_dir: "models"
+  artifact: "models/purchase_intent.joblib"
+  metadata: "models/metadata.json"
+  metrics: "models/model_comparison.csv"
+  feature_importance: "models/feature_importance.csv"
+  shap_importance: "models/shap_importance.csv"
+  mlflow: "mlruns"

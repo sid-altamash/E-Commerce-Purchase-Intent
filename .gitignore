@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.streamlit/secrets.toml
+models/*
+!models/purchase_intent.joblib
+!models/metadata.json
+!models/model_comparison.csv
+!models/feature_importance.csv
+!models/shap_importance.csv
+mlruns/
+catboost_info/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
