@@ -37,11 +37,12 @@ scenario; replace those assumptions before using this operating point.
 
 ## Quick start (Windows PowerShell)
 
-The bundled `.venv` is the project's environment. From this folder:
+The bundled `.venv` is the project's environment. To install the full training,
+API, and testing stack from this folder:
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
+python -m pip install -r requirements-training.txt
 python -m src.train
 ```
 
@@ -68,9 +69,10 @@ Open the dashboard at `http://localhost:8501`; the API is at
 
 ## Publish a shareable Streamlit app
 
-The project includes a small, pre-trained model artifact so the hosted app can
-score sessions without running model training during startup. It also includes
-a lighter dashboard-only dependency file to make cloud installation faster.
+The project includes a pre-trained model artifact so the hosted app can score
+sessions without running model training during startup. The root
+`requirements.txt` contains only the dashboard/runtime packages, so Community
+Cloud does not install the training stack.
 
 1. Create a **public GitHub repository** and push this project to its default
    branch. Include `models/purchase_intent.joblib`,
@@ -82,8 +84,8 @@ a lighter dashboard-only dependency file to make cloud installation faster.
 3. Choose **Create app**, select the repository and default branch, and set
    **Main file path** to `dashboard/app.py`.
 4. In **Advanced settings**, select Python **3.14** (the environment used for
-   the saved artifact) and set the dependency file to
-   `requirements-dashboard.txt`.
+the saved artifact). Community Cloud will install the root
+`requirements.txt`.
 5. Deploy. Streamlit Community Cloud will provide a public `*.streamlit.app`
    URL that you can share.
 
